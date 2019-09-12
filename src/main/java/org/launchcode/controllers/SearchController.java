@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -28,13 +29,19 @@ public class SearchController {
     public String results(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
         if (searchType.equals("all")){
             ArrayList<HashMap<String, String>> jobs = JobData.findByValue(searchTerm);
+            Integer num = jobs.size();
+            model.addAttribute("num", num);
             model.addAttribute("jobs", jobs);
+            model.addAttribute("columns",ListController.columnChoices);
             return "search";
         }
 
         else {
             ArrayList<HashMap<String, String>> jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+            Integer num = jobs.size();
+            model.addAttribute("num", num);
             model.addAttribute("jobs", jobs);
+            model.addAttribute("columns", ListController.columnChoices);
             return "search";
         }
 
